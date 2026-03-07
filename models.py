@@ -4,3 +4,6 @@ class Book:
         self.title = title
         self.author = author
         self.price = price
+
+    def __str__(self):
+        return f"{self.title} від {self.author} - {self.price} грн"
