@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # Stage 1: Test 
+  # Stage 1: Test (Пункт 24-30 методички)
   test:
     runs-on: ubuntu-latest
     steps:
@@ -24,3 +24,24 @@ jobs:
 
       - name: Run Unit Tests
         run: python -m pytest tests/
+
+  # Stage 2: Build (Пункт 31-35 методички)
+  build:
+    needs: test # Етап збірки почнеться ТІЛЬКИ після успішних тестів
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Artifact
+        # Створюємо текстовий файл, що імітує результат збірки (артифакт)
+        run: |
+          echo "Application Build: bookstore-v1.0.${{ github.run_number }}" > build_result.txt
+          echo "Status: Success" >> build_result.txt
+
+      - name: Upload Artifact
+        # Зберігаємо артифакт у GitHub, щоб передати його на деплой
+        uses: actions/upload-artifact@v4
+        with:
+          name: bookstore-package
+          path: build_result.txt
