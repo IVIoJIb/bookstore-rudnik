@@ -25,7 +25,7 @@ jobs:
       - name: Run Unit Tests
         run: python -m pytest tests/
 
-  # Stage 2: Build 
+  # Stage 2: Build
   build:
     needs: test # Етап збірки почнеться ТІЛЬКИ після успішних тестів
     runs-on: ubuntu-latest
@@ -62,3 +62,14 @@ jobs:
         run: |
           echo "Deploying to Staging environment..."
           cat build_result.txt
+  # Stage 4: Verify Staging 
+  verify_staging:
+    needs: deploy_staging # Запускається тільки після деплою
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Smoke Tests
+        # Імітуємо запуск смоук-тестів через Assert
+        run: |
+          echo "Verifying Staging environment..."
+          python -c "assert 1 == 1"
+          echo "Verification successful!"
