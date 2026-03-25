@@ -25,7 +25,7 @@ jobs:
       - name: Run Unit Tests
         run: python -m pytest tests/
 
-  # Stage 2: Build (Пункт 31-35 методички)
+  # Stage 2: Build 
   build:
     needs: test # Етап збірки почнеться ТІЛЬКИ після успішних тестів
     runs-on: ubuntu-latest
@@ -45,3 +45,20 @@ jobs:
         with:
           name: bookstore-package
           path: build_result.txt
+
+  # Stage 3: Deploy to Staging
+  deploy_staging:
+    needs: build # Залежить від успішної збірки артифакта
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        # Завантажуємо створений раніше артифакт
+        uses: actions/download-artifact@v4
+        with:
+          name: bookstore-package
+
+      - name: Simulate Staging Deploy
+        # Імітуємо деплой, виводячи вміст артифакта
+        run: |
+          echo "Deploying to Staging environment..."
+          cat build_result.txt
