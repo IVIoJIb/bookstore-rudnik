@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # Stage 1: Test (Пункт 24-30 методички)
+  # Stage 1: Test
   test:
     runs-on: ubuntu-latest
     steps:
@@ -73,3 +73,20 @@ jobs:
           echo "Verifying Staging environment..."
           python -c "assert 1 == 1"
           echo "Verification successful!"
+
+  # Stage 5: Deploy to Production
+  deploy_production:
+    needs: verify_staging # Запускається тільки після успішної перевірки стейджингу
+    runs-on: ubuntu-latest
+    environment: production # Вказуємо середовище для ручного підтвердження
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bookstore-package
+
+      - name: Final Deploy to Production
+        run: |
+          echo "Deploying to Production environment..."
+          cat build_result.txt
+          echo "Deployment successful!"
