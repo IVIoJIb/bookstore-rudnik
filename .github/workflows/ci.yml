@@ -62,7 +62,7 @@ jobs:
         run: |
           echo "Deploying to Staging environment..."
           cat build_result.txt
-  # Stage 4: Verify Staging 
+  # Stage 4: Verify Staging
   verify_staging:
     needs: deploy_staging # Запускається тільки після деплою
     runs-on: ubuntu-latest
@@ -71,5 +71,5 @@ jobs:
         # Імітуємо запуск смоук-тестів через Assert
         run: |
           echo "Verifying Staging environment..."
-          python -c "assert 1 == 1"
+          python -c "assert 1 == 0"
           echo "Verification successful!"
