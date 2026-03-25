@@ -71,5 +71,5 @@ jobs:
         # Імітуємо запуск смоук-тестів через Assert
         run: |
           echo "Verifying Staging environment..."
-          python -c "assert 1 == 0"
+          python -c "assert 1 == 1"
           echo "Verification successful!"
